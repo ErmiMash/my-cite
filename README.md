@@ -1,18 +1,29 @@
-# React + Vite
+# 🎬 Мой сайт (а-ля Кинопоиск)
 
+Сайт с функциями оценки фильмов, рецензий и социального взаимодействия.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 🚀 Функционал
 
+- 📱 Адаптивный дизайн
+- 🎭 Карточки фильмов с рейтингами
+- 🔐 Авторизация через Firebase
+- ⭐ Система оценок и рецензий
+- 👥 Социальные функции
 
-Currently, two official plugins are available:
+## 🛠 Технологии
 
+- **Frontend**: React, Vite, CSS3
+- **Auth**: Firebase Authentication
+- **Deploy**: Vercel/Netlify
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+## 📦 Установка и запуск
 
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+# Установка зависимостей
+npm install
 
+# Запуск в режиме разработки
+npm run dev
 
-## Expanding the ESLint configuration
-
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# Сборка для продакшена
+npm run build
