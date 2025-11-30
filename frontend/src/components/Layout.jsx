@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { getAuth, onAuthStateChanged, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
-import app from '../firebase/config'
+import app from '../firebase/config.js'
 
 function Layout({ children }) {
     const [user, setUser] = useState(null)
