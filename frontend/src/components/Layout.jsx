@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { getAuth, onAuthStateChanged, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
-import app from '../firebase/config.js'
+import { authAPI } from '../services/api'
 
 function Layout({ children }) {
     const [user, setUser] = useState(null)
@@ -20,49 +19,62 @@ function Layout({ children }) {
         { name: 'Сериалы', path: '/series' }
     ]
 
+    // Проверяем авторизацию при загрузке
     useEffect(() => {
-        const auth = getAuth(app)
-        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-            if (firebaseUser) {
-                setUser({
-                    uid: firebaseUser.uid,
-                    email: firebaseUser.email,
-                    name: firebaseUser.displayName || firebaseUser.email.split('@')[0]
-                })
-            } else {
-                setUser(null)
-            }
-        })
-        return () => unsubscribe()
+        checkAuth()
     }, [])
+
+
+    const checkAuth = async () => {
+        try {
+            const token = localStorage.getItem('token')
+            if (token) {
+                const response = await authAPI.getMe()
+                setUser(response.data)
+            }
+        } catch (error) {
+            localStorage.removeItem('token')
+        }
+    }
 
     const handleLogin = async (e) => {
         e.preventDefault()
         try {
-            const auth = getAuth(app)
-            await signInWithEmailAndPassword(auth, authForm.email, authForm.password)
+            const response = await authAPI.login({
+                email: authForm.email,
+                password: authForm.password
+            })
+
+            localStorage.setItem('token', response.data.access_token)
+            setUser(response.data)
             setShowLoginModal(false)
             setAuthForm({ email: '', password: '', name: '' })
         } catch (error) {
-            alert(error.message)
+            alert(error.response?.data?.detail || 'Ошибка входа')
         }
     }
 
     const handleRegister = async (e) => {
         e.preventDefault()
         try {
-            const auth = getAuth(app)
-            await createUserWithEmailAndPassword(auth, authForm.email, authForm.password)
+            const response = await authAPI.register({
+                email: authForm.email,
+                password: authForm.password,
+                name: authForm.name
+            })
+
+            localStorage.setItem('token', response.data.access_token)
+            setUser(response.data)
             setShowRegisterModal(false)
             setAuthForm({ email: '', password: '', name: '' })
         } catch (error) {
-            alert(error.message)
+            alert(error.response?.data?.detail || 'Ошибка регистрации')
         }
     }
 
-    const handleLogout = async () => {
-        const auth = getAuth(app)
-        await signOut(auth)
+    const handleLogout = () => {
+        localStorage.removeItem('token')
+        setUser(null)
     }
 
     const handleAuthChange = (e) => {
