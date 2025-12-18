@@ -51,7 +51,7 @@ function Home() {
     ]
 
     return (
-        <div>
+        <div className="home-page">
             {/* Главный баннер */}
             <section className="hero-banner">
                 <div className="container">

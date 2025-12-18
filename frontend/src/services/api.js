@@ -61,4 +61,24 @@ export const authAPI = {
     }
 }
 
+export const moviesAPI = {
+    // Получить все фильмы
+    getMovies: (params = {}) => api.get('/movies', { params }),
+
+    // Получить фильм по ID
+    getMovieById: (id) => api.get(`/movies/${id}`),
+
+    // Добавить в избранное
+    addToFavorites: (movieId) => api.post(`/movies/${movieId}/favorite`),
+
+    // Удалить из избранного
+    removeFromFavorites: (movieId) => api.delete(`/movies/${movieId}/favorite`),
+
+    // Получить избранные фильмы
+    getFavorites: () => api.get('/users/me/favorites'),
+
+    // Поиск фильмов
+    searchMovies: (query) => api.get('/movies', { params: { search: query } })
+}
+
 export default api
